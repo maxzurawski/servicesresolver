@@ -11,6 +11,7 @@ import (
 	"github.com/labstack/echo"
 	"github.com/xdevices/servicesresolver/config"
 	"github.com/xdevices/servicesresolver/dto"
+	"github.com/xdevices/servicesresolver/publishers"
 	"github.com/xdevices/utilities/stringutils"
 )
 
@@ -28,39 +29,37 @@ func HandleAppRequest(c echo.Context) error {
 	response, err := client.Do(request)
 
 	if err != nil {
-		config.Config().Logger.PublishError(uuid.New().String(),
+		publishers.Logger().Error(uuid.New().String(),
 			"",
-			config.Config().ServiceName(),
 			fmt.Sprintf("problem requesting eureka regarding app: [%s]", app),
 			err.Error())
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
-	var application dto.EurekaResponse
 	defer response.Body.Close()
 	bytes, err := ioutil.ReadAll(response.Body)
 
 	if err != nil {
-		config.Config().Logger.PublishError(
+		publishers.Logger().Error(
 			uuid.New().String(),
 			"",
-			config.Config().ServiceName(),
 			fmt.Sprintf("could not read body of response."),
 			err.Error())
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 
 	if response.StatusCode == http.StatusNoContent || response.StatusCode == http.StatusNotFound {
-		config.Config().Logger.PublishInfo(
+		publishers.Logger().Info(
 			uuid.New().String(), "",
-			config.Config().ServiceName(),
 			fmt.Sprintf("no content found in eureka for app: [%s]", app))
 		return c.JSON(http.StatusNoContent, &dto.AppMetadata{})
 	}
 
+	var application dto.EurekaResponse
 	err = json.Unmarshal(bytes, &application)
 	if err != nil {
-		config.Config().Logger.PublishError(uuid.New().String(), "",
-			config.Config().ServiceName(), fmt.Sprintf("encountered error during unmarshaling message: [%s]", string(bytes)),
+		publishers.Logger().Error(uuid.New().String(),
+			"",
+			fmt.Sprintf("encountered error during unmarshaling message: [%s]", string(bytes)),
 			err.Error())
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
