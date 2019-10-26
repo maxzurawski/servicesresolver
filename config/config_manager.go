@@ -1,8 +1,8 @@
 package config
 
 import (
-	"github.com/maxzurawski/utilities/config"
-	"github.com/maxzurawski/utilities/rabbit"
+	"github.com/xdevices/utilities/config"
+	"github.com/xdevices/utilities/rabbit"
 )
 
 type resolverManager struct {

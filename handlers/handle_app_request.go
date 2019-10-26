@@ -9,10 +9,10 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/labstack/echo"
-	"github.com/maxzurawski/servicesresolver/config"
-	"github.com/maxzurawski/servicesresolver/dto"
-	"github.com/maxzurawski/servicesresolver/publishers"
-	"github.com/maxzurawski/utilities/stringutils"
+	"github.com/xdevices/servicesresolver/config"
+	"github.com/xdevices/servicesresolver/dto"
+	"github.com/xdevices/servicesresolver/publishers"
+	"github.com/xdevices/utilities/stringutils"
 )
 
 func HandleAppRequest(c echo.Context) error {

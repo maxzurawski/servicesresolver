@@ -2,9 +2,9 @@ package main
 
 import (
 	"github.com/labstack/echo"
-	"github.com/maxzurawski/servicesresolver/config"
-	"github.com/maxzurawski/servicesresolver/handlers"
-	"github.com/maxzurawski/servicesresolver/publishers"
+	"github.com/xdevices/servicesresolver/config"
+	"github.com/xdevices/servicesresolver/handlers"
+	"github.com/xdevices/servicesresolver/publishers"
 )
 
 func main() {
